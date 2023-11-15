@@ -31,25 +31,25 @@ public class BookController {
     @Resource
     BookService bookService;
 
-    @PostMapping("/book/insert")
+    @PostMapping("/books/insert")
     public BaseResponse<String> insertBook(@RequestBody BookInsertRequest bookInsertRequest) {
         bookService.insertBook(bookInsertRequest);
-        return ResultUtils.success("");
+        return ResultUtils.success(null, "insert success");
     }
 
-    @DeleteMapping("/book/delete/{id}")
+    @DeleteMapping("/books/delete/{id}")
     public BaseResponse<String> deleteBook(@PathVariable("id")int id) {
         bookService.delBook(id);
-        return ResultUtils.success("");
+        return ResultUtils.success(null, "delete success");
     }
 
-    @PostMapping("/book/update")
+    @PostMapping("/books/update")
     public BaseResponse<String> updateBook(@RequestBody BookUpdateRequest bookUpdateRequest) {
         bookService.updateBook(bookUpdateRequest);
-        return ResultUtils.success("");
+        return ResultUtils.success(null, "update success");
     }
 
-    @GetMapping("/book/get/{id}")
+    @GetMapping("/books/get/{id}")
     public BaseResponse<Book> getBook(@PathVariable("id") int id) {
         Book book = bookService.getBook(id);
         return ResultUtils.success(book);

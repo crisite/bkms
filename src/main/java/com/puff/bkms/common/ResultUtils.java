@@ -7,8 +7,14 @@ package com.puff.bkms.common;
  * @date: 2023/11/14 下午8:27
  */
 public class ResultUtils {
+
+
     public static <T> BaseResponse<T> success(T data) {
         return new BaseResponse<>(0, data, "ok");
+    }
+
+    public static <T> BaseResponse<T> success(T data, String msg) {
+        return new BaseResponse<>(0, data, msg);
     }
 
     /**
