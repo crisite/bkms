@@ -9,16 +9,35 @@
     </select>
 
     <delete id="delBook">
-        DELETE FROM books WHERE id = #{0};
+        DELETE FROM books WHERE id = #{0}
     </delete>
 
     <update id="updateBook" parameterType="com.puff.bkms.model.dto.book.BookUpdateRequest">
         UPDATE books SET title = #{title}, author = #{author}, ISBN = #{ISBN}, status = #{status},
                          published_date = #{publishedDate}, category = #{category}, description = #{description}
-        WHERE id = #{id};
+        WHERE id = #{id}
     </update>
 
     <select id="getBook" resultType="com.puff.bkms.model.entity.Book">
-        select * from books where id = #{id};
+        select * from books where id = #{id}
+    </select>
+
+    <select id="getBookByISBN" resultType="com.puff.bkms.model.vo.BookVO">
+        select id, title, author, ISBN, published_date FROM books WHERE ISBN = #{isbn}
+    </select>
+
+    <select id="queryBook" resultType="com.puff.bkms.model.entity.Book">
+        SELECT  id, title, author, ISBN, published_date FROM books
+        <where>
+            <if test="searchText != null and searchText != '' ">
+                AND title like CONCAT('%', #{searchText}, '%')
+            </if>
+            <if test="category != null and category != '' ">
+                AND category = #{category}
+            </if>
+        </where>
+        <if test="sortField != null and sortField != '' ">
+            ORDER BY #{sortField} #{sortOrder}
+        </if>
     </select>
 </mapper>

@@ -1,10 +1,14 @@
 package com.puff.bkms.mapper;
 
 import com.puff.bkms.model.dto.book.BookInsertRequest;
+import com.puff.bkms.model.dto.book.BookQueryRequest;
 import com.puff.bkms.model.dto.book.BookUpdateRequest;
 import com.puff.bkms.model.entity.Book;
+import com.puff.bkms.model.vo.BookVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @projectName: bkms
@@ -25,4 +29,8 @@ public interface BookMapper {
     void updateBook(BookUpdateRequest bookUpdateRequest);
 
     Book getBook(int id);
+
+    BookVO getBookByISBN(String isbn);
+
+    List<Book> queryBook(BookQueryRequest bookQueryRequest);
 }

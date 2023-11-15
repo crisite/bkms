@@ -1,14 +1,21 @@
 package com.puff.bkms.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.puff.bkms.mapper.BookMapper;
 import com.puff.bkms.model.dto.book.BookInsertRequest;
+import com.puff.bkms.model.dto.book.BookQueryRequest;
 import com.puff.bkms.model.dto.book.BookUpdateRequest;
 import com.puff.bkms.model.entity.Book;
+import com.puff.bkms.model.vo.BookVO;
 import com.puff.bkms.service.BookService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @projectName: bkms
@@ -44,5 +51,39 @@ public class BookServiceImpl implements BookService{
     @Override
     public Book getBook(int id) {
         return bookMapper.getBook(id);
+    }
+
+    @Override
+    public PageInfo<BookVO> getBookByISBN(BookQueryRequest bookQueryRequest) {
+        String searchText = bookQueryRequest.getSearchText();
+        int current = bookQueryRequest.getCurrent();
+        int pageSize = bookQueryRequest.getPageSize();
+
+        PageHelper.startPage(current, pageSize);
+        BookVO bookVO = bookMapper.getBookByISBN(searchText);
+        ArrayList<BookVO> bookVOS = new ArrayList<>();
+        bookVOS.add(bookVO);
+        return new PageInfo<>(bookVOS);
+    }
+
+    @Override
+    public PageInfo<BookVO> listBookVOByPage(BookQueryRequest bookQueryRequest) {
+        int current = bookQueryRequest.getCurrent();
+        int pageSize = bookQueryRequest.getPageSize();
+
+        List<BookVO> bookVOS = new ArrayList<>();
+        // 先设定分页参数
+        PageHelper.startPage(current, pageSize);
+        // 执行查询语句
+        List<Book> books = bookMapper.queryBook(bookQueryRequest);
+        System.out.println(books);
+        books.stream().forEach( book -> {
+            BookVO res = new BookVO();
+            BeanUtils.copyProperties(book, res);
+            bookVOS.add(res);
+            System.out.println(book+"----"+res);
+        });
+        // PageInfo封装查询结果
+        return new PageInfo<BookVO>(bookVOS);
     }
 }
