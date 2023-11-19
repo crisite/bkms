@@ -17,9 +17,9 @@ spring:
     url: jdbc:mysql://localhost:3306/bkms
     username: root
     password: 123456
-  jackson:
+#  jackson:
     # 定制Java对象序列化时的日期格式化
-    date-format: yyyy-MM-dd
+#    date-format: yyyy-MM-dd
 
 mybatis:
   # Mapper驼峰扫描
@@ -28,8 +28,8 @@ mybatis:
     # 数据库字段驼峰转换
     map-underscore-to-camel-case: true
 
-#logging:
-#  level:
-#    org:
-#      springframework: DEBUG
+logging:
+  level:
+    org:
+      springframework: DEBUG
 

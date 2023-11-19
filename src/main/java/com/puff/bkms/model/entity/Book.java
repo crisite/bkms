@@ -27,6 +27,7 @@ public class Book implements Serializable {
 
     private String ISBN;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date publishedDate;
 
     private String category;

@@ -39,5 +39,6 @@
         <if test="sortField != null and sortField != '' ">
             ORDER BY #{sortField} #{sortOrder}
         </if>
+        Limit #{pageSize}, #{pageSize}
     </select>
 </mapper>
