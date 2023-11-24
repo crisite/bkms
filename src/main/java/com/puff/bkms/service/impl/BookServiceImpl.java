@@ -10,6 +10,7 @@ import com.puff.bkms.model.dto.book.BookUpdateRequest;
 import com.puff.bkms.model.entity.Book;
 import com.puff.bkms.model.vo.BookVO;
 import com.puff.bkms.service.BookService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ import java.util.List;
  * @version: 1.0
  */
 @Service
+@Slf4j
 public class BookServiceImpl implements BookService{
 
     @Resource
@@ -72,16 +74,16 @@ public class BookServiceImpl implements BookService{
         int pageSize = bookQueryRequest.getPageSize();
 
         List<BookVO> bookVOS = new ArrayList<>();
-        // 先设定分页参数
+        // 先清除PageHelper缓存
+        PageHelper.clearPage();
+        // 设定分页参数
         PageHelper.startPage(current, pageSize);
         // 执行查询语句
         List<Book> books = bookMapper.queryBook(bookQueryRequest);
-        System.out.println(books);
         books.stream().forEach( book -> {
             BookVO res = new BookVO();
             BeanUtils.copyProperties(book, res);
             bookVOS.add(res);
-            System.out.println(book+"----"+res);
         });
         // PageInfo封装查询结果
         return new PageInfo<BookVO>(bookVOS);
