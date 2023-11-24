@@ -9,4 +9,14 @@
     <select id="isUserExists" resultType="boolean">
         SELECT EXISTS(SELECT 1 FROM user WHERE username = #{username});
     </select>
+
+    <select id="selectPowerByUserId" resultType="java.lang.String">
+        select p.perms
+        from power p
+                 left join in_role_power irp on p.id = irp.power_id
+                 left join role r on irp.role_id = r.id
+                 left join in_user_role iur on r.id = iur.role_id
+                 left join user u on u.id = iur.user_id
+        where u.id = #{userId};
+    </select>
 </mapper>

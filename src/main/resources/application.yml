@@ -27,9 +27,6 @@ mybatis:
   configuration:
     # 数据库字段驼峰转换
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-logging:
-  level:
-    org:
-      springframework: DEBUG
 

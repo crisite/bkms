@@ -1,7 +1,10 @@
 package com.puff.bkms.model.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +19,9 @@ import java.util.stream.Collectors;
  * @date: 2023/11/19 下午12:37
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDetail implements UserDetails {
     private Integer id;
     private String username;
