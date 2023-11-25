@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.puff.bkms.handler;
 
 import com.alibaba.fastjson.JSON;
@@ -24,4 +25,13 @@ public class AuthenticationFailHandlerImpl implements AuthenticationFailureHandl
         httpServletResponse.setContentType(APPLICATION_JSON);
         httpServletResponse.getWriter().write(JSON.toJSONString(ResultUtils.error(ErrorCode.PARAMS_ERROR,e.getMessage())));
     }
+=======
+package com.puff.bkms.handler;/**
+ * 
+ *
+ * @author:     Puff 
+ * @date:    2023/11/20 上午7:04
+ */ 
+public class AuthenticationFailHandlerImpl {
+>>>>>>> a11844871c7a34f84365d33633d95fe997b7a65e
 }

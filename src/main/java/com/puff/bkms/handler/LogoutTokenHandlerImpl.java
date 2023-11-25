@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.puff.bkms.handler;
 
 import org.springframework.security.core.Authentication;
@@ -31,4 +32,13 @@ public class LogoutTokenHandlerImpl implements LogoutHandler {
 //            e.printStackTrace();
 //        }
     }
+=======
+package com.puff.bkms.handler;/**
+ * 
+ *
+ * @author:     Puff 
+ * @date:    2023/11/20 上午7:18
+ */ 
+public class LogoutTokenHandlerImpl {
+>>>>>>> a11844871c7a34f84365d33633d95fe997b7a65e
 }
