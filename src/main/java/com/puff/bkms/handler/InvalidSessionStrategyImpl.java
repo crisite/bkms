@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.puff.bkms.constant.CommonConst.LOG_PRE;
+
 /**
  * 应该是Session失效后调用执行InvalidSessionStrategy
  *
@@ -21,7 +23,7 @@ public class InvalidSessionStrategyImpl implements InvalidSessionStrategy {
     private  static ObjectMapper objectMapper = new ObjectMapper();
     @Override
     public void onInvalidSessionDetected(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        log.info("puff_log -> InvalidSessionStrategyImpl");
+        log.info(LOG_PRE+"InvalidSessionStrategyImpl");
         Cookie cookie = new Cookie("JSESSIONID", null);
         cookie.setMaxAge(0);
         String contextPath = request.getContextPath();

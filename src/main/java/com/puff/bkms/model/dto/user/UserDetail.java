@@ -33,7 +33,7 @@ public class UserDetail implements UserDetails {
     // security识别的权限
     private List<GrantedAuthority> authList;
     // 用户最后一次登录时间
-    private Date last_login;
+    private Date lastLogin;
 
 
     //JsonIgnore在接口传递时隐藏敏感信息

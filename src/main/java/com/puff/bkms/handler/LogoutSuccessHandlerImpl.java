@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.puff.bkms.constant.CommonConst.APPLICATION_JSON;
+import static com.puff.bkms.constant.CommonConst.LOG_PRE;
+
 /**
  * 登录成功处理器
  *
@@ -34,6 +36,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response.setContentType(APPLICATION_JSON);
         response.getWriter().write(JSON.toJSONString(ResultUtils.success(null,"puff response")));
-        log.info("puff_log -- LogoutSuccessHandlerImpl");
+        log.info(LOG_PRE+"LogoutSuccessHandlerImpl");
     }
 }

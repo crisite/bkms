@@ -50,9 +50,9 @@ public class SecurityConfiguration{
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
     @Autowired
-    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+    private SessionInformationExpiredStrategyImpl sessionInformationExpiredStrategy;
     @Autowired
-    private InvalidSessionStrategy invalidSessionStrategy;
+    private InvalidSessionStrategyImpl invalidSessionStrategy;
     @Autowired
     private SessionRegistry sessionRegistry;
 
@@ -78,19 +78,18 @@ public class SecurityConfiguration{
                 .loginProcessingUrl(LOGIN_URI)
                 .successHandler(authenticationSuccessHandler)   // 登录成功处理
                 .failureHandler(authenticationFailHandler)      // 登录失败处理
-                .defaultSuccessUrl("/doc.html")
+                // 使用了自定义的authenticationSuccessHandler口不能再设置defaultSuccessUrl
+                // .defaultSuccessUrl("/doc.html")
                 .and()
                 .logout()
                 .logoutUrl("/logout")
                 .addLogoutHandler(logoutHandler)        // 登出处理
-                .logoutSuccessHandler(logoutSuccessHandler)
-                .logoutSuccessUrl("/doc.html")
-                .deleteCookies("JSESSIONID");    // 登出成功处理
+                .logoutSuccessHandler(logoutSuccessHandler);
 
         // session管理
         http.sessionManagement()
                 .invalidSessionStrategy(invalidSessionStrategy)     // session失效处理
-                .maximumSessions(10) // 最大session数
+                .maximumSessions(1) // 最大session数
                 .maxSessionsPreventsLogin(false)  // 某用户达到最大会话并发数后，新会话请求会被拒绝登录
                 .expiredSessionStrategy(sessionInformationExpiredStrategy) // 监听session消除后的处理
                 .sessionRegistry(sessionRegistry);

@@ -50,17 +50,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // 获取权限信息
         List<String> powerList = userAuthMapper.selectPowerByUserId(userInfo.getId());
 
-        Date lastLogin = new Date();
-        userInfo.setLastLogin(lastLogin);
-        userAuthMapper.loginSuccess(userInfo);
-
         return UserDetail.builder()
                 .id(userInfo.getId())
                 .username(userInfo.getUsername())
                 .password(userInfo.getPassword())
                 .roleList(roleList)
                 .powerList(powerList)
-                .last_login(lastLogin)
+                .lastLogin(userInfo.getLastLogin())
                 .build();
     }
 

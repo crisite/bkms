@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+import static com.puff.bkms.constant.CommonConst.LOG_PRE;
+
 /**
  * session超时策略实现
  * 当每个用户在系统中的最大session数达到后就会执行expiredSessionStrategy
@@ -26,7 +28,7 @@ import java.io.IOException;
 public class SessionInformationExpiredStrategyImpl implements SessionInformationExpiredStrategy {
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
-        log.info("puff_log -> session 超时策略");
+        log.info(LOG_PRE+"session 过期策略");
         event.getResponse().setContentType(CommonConst.APPLICATION_JSON);
         event.getResponse().getWriter().write(JSON.toJSONString(ResultUtils.error(ErrorCode.NOT_LOGIN_ERROR,"Session过期，可能是被迫下线-.-")));
     }

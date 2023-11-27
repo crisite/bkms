@@ -1,9 +1,12 @@
 # 应用服务 WEB 访问端口
 server:
   port: 9090
-  reactive:
+  # 将Cookie保存的SessionID名称设置为JSEESIONID
+  servlet:
     session:
-      timeout: 60
+      cookie:
+        name: JSESSIONID
+
 spring:
   # 默认 dev 环境
   profiles:
@@ -12,6 +15,13 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  # session 配置
+  session:
+    timeout: 10m
+    store-type: redis
+  redis:
+    database: 0
+    port: 6379
 
   # 连接数据源
   datasource:
@@ -31,3 +41,7 @@ mybatis:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+jwt:
+  header: JWTName
+  secret: springkhbd
+  expiration: 360

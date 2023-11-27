@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.puff.bkms.constant.CommonConst.LOG_PRE;
+
 /**
  * AuthenticationEntryPoint 用来解决匿名用户访问无权限资源时的异常
  * 使用自定义AuthenticationEntryPoint之后 spring security的默认login页面404了
@@ -26,7 +28,7 @@ import java.io.IOException;
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        log.info("puff_log --> AuthenticationEntryPointImpl");
+        log.info(LOG_PRE+"AuthenticationEntryPointImpl");
         response.setContentType(CommonConst.APPLICATION_JSON);
         response.getWriter().write(JSON.toJSONString(ResultUtils.error(ErrorCode.NOT_LOGIN_ERROR)));
     }
