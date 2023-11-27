@@ -1,7 +1,9 @@
 # 应用服务 WEB 访问端口
 server:
   port: 9090
-
+  reactive:
+    session:
+      timeout: 60
 spring:
   # 默认 dev 环境
   profiles:
@@ -28,5 +30,4 @@ mybatis:
     # 数据库字段驼峰转换
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
 

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.puff.bkms.utils;
 
 import io.jsonwebtoken.Claims;
@@ -128,14 +127,3 @@ public class JwtUtil {
     }
 
 }
-
-=======
-package com.puff.bkms.utils;/**
- * 
- *
- * @author:     Puff 
- * @date:    2023/11/20 上午3:14
- */ 
-public class JwtUtil {
-}
->>>>>>> a11844871c7a34f84365d33633d95fe997b7a65e

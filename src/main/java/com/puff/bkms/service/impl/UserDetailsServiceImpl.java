@@ -50,7 +50,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // 获取权限信息
         List<String> powerList = userAuthMapper.selectPowerByUserId(userInfo.getId());
 
-        log.info("puff_log:" + userInfo);
+        Date lastLogin = new Date();
+        userInfo.setLastLogin(lastLogin);
+        userAuthMapper.loginSuccess(userInfo);
 
         return UserDetail.builder()
                 .id(userInfo.getId())
@@ -58,7 +60,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .password(userInfo.getPassword())
                 .roleList(roleList)
                 .powerList(powerList)
-                .last_login(new Date())
+                .last_login(lastLogin)
                 .build();
     }
 

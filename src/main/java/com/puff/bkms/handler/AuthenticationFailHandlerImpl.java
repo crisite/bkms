@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.puff.bkms.handler;
 
 import com.alibaba.fastjson.JSON;
@@ -19,19 +18,10 @@ import static com.puff.bkms.constant.CommonConst.APPLICATION_JSON;
  */
 @Component
 public class AuthenticationFailHandlerImpl implements AuthenticationFailureHandler {
-    // 身份验证失败时调用
+    // 身份认证失败时调用
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
         httpServletResponse.setContentType(APPLICATION_JSON);
         httpServletResponse.getWriter().write(JSON.toJSONString(ResultUtils.error(ErrorCode.PARAMS_ERROR,e.getMessage())));
     }
-=======
-package com.puff.bkms.handler;/**
- * 
- *
- * @author:     Puff 
- * @date:    2023/11/20 上午7:04
- */ 
-public class AuthenticationFailHandlerImpl {
->>>>>>> a11844871c7a34f84365d33633d95fe997b7a65e
 }

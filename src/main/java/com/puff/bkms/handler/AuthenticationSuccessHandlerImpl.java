@@ -1,6 +1,5 @@
 package com.puff.bkms.handler;
 
-<<<<<<< HEAD
 import com.puff.bkms.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -33,15 +32,5 @@ public void onAuthenticationSuccess(HttpServletRequest request, HttpServletRespo
 //        httpServletResponse.setContentType(APPLICATION_JSON);
 //        // 将token返回给前端
 //        httpServletResponse.getWriter().write(JSON.toJSONString(ResponseResult.ok(token)));
-}
-=======
-/**
- * 重写认证成功处理类
- *
- * @author: Puff
- * @date: 2023/11/20 上午4:15
- */
-
-public class authenticationSuccessHandler {
->>>>>>> a11844871c7a34f84365d33633d95fe997b7a65e
+    }
 }

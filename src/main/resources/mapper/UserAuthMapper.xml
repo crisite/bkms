@@ -6,6 +6,9 @@
     <insert id="insertUser" parameterType="com.puff.bkms.model.dto.user.UserRegisterRequest">
         INSERT INTO user(username, password, email) VALUE(#{username}, #{password}, #{email})
     </insert>
+    <update id="loginSuccess" parameterType="com.puff.bkms.model.entity.UserInfo">
+        UPDATE user SET last_login = #{lastLogin} WHERE id = #{id}
+    </update>
     <select id="isUserExists" resultType="boolean">
         SELECT EXISTS(SELECT 1 FROM user WHERE username = #{username});
     </select>

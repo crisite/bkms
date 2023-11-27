@@ -12,6 +12,7 @@ import com.puff.bkms.model.entity.Book;
 import com.puff.bkms.model.dto.book.BookQueryRequest;
 import com.puff.bkms.model.vo.BookVO;
 import com.puff.bkms.service.BookService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -32,18 +33,21 @@ public class BookController {
     BookService bookService;
 
     @PostMapping("/books/insert")
+    @PreAuthorize("hasAuthority('sys:admin')")
     public BaseResponse<String> insertBook(@RequestBody BookInsertRequest bookInsertRequest) {
         bookService.insertBook(bookInsertRequest);
         return ResultUtils.success(null, "insert success");
     }
 
     @DeleteMapping("/books/delete/{id}")
+    @PreAuthorize("hasAuthority('sys:admin')")
     public BaseResponse<String> deleteBook(@PathVariable("id")int id) {
         bookService.delBook(id);
         return ResultUtils.success(null, "delete success");
     }
 
     @PostMapping("/books/update")
+    @PreAuthorize("hasAuthority('sys:admin')")
     public BaseResponse<String> updateBook(@RequestBody BookUpdateRequest bookUpdateRequest) {
         bookService.updateBook(bookUpdateRequest);
         return ResultUtils.success(null, "update success");

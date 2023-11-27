@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.puff.bkms.handler;
 
 import org.springframework.security.core.Authentication;
@@ -9,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 用户注销删除Token
  * @author: Puff
  * @date: 2023/11/20 上午7:18
  */
@@ -23,7 +23,7 @@ public class LogoutTokenHandlerImpl implements LogoutHandler {
     /**
      * 从redis中删除当前用户登录的token
      */
-    private void delLoginUserToken(){
+    private void delLoginUserToken() {
 //        try {
 //            Integer loginUserId = UserUtils.getLoginUserId();
 //            redisService.del(RedisPrefixConst.BACKSTAGE_LOGIN_TOKEN+loginUserId);
@@ -32,13 +32,4 @@ public class LogoutTokenHandlerImpl implements LogoutHandler {
 //            e.printStackTrace();
 //        }
     }
-=======
-package com.puff.bkms.handler;/**
- * 
- *
- * @author:     Puff 
- * @date:    2023/11/20 上午7:18
- */ 
-public class LogoutTokenHandlerImpl {
->>>>>>> a11844871c7a34f84365d33633d95fe997b7a65e
 }

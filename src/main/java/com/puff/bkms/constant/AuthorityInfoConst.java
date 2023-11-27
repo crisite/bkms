@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.puff.bkms.constant;
 
 /**
@@ -20,13 +19,4 @@ public interface AuthorityInfoConst {
      */
     String USER = "sys:user";
 
-=======
-package com.puff.bkms.constant;/**
- * 
- *
- * @author:     Puff 
- * @date:    2023/11/20 上午6:32
- */ 
-public class AuthorityInfoConst {
->>>>>>> a11844871c7a34f84365d33633d95fe997b7a65e
 }

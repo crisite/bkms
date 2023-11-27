@@ -1,8 +1,10 @@
 package com.puff.bkms.mapper;
 
 import com.puff.bkms.model.dto.user.UserRegisterRequest;
+import com.puff.bkms.model.entity.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,4 +18,6 @@ public interface UserAuthMapper {
     boolean isUserExists(String username);
 
     List<String> selectPowerByUserId(int id);
+
+    void loginSuccess(UserInfo userInfo);
 }
