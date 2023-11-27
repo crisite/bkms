@@ -53,6 +53,8 @@ public class SecurityConfiguration{
     private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
     @Autowired
     private InvalidSessionStrategy invalidSessionStrategy;
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
     /**
      * 创建一个BCryptPasswordEncoding注入容器,设置密码验证方法
@@ -69,12 +71,6 @@ public class SecurityConfiguration{
         return new HttpSessionEventPublisher();
     }
 
-    // 注入SessionRegistry 获取在线用户信息
-    @Bean
-    public SessionRegistry sessionRegistry(){
-        return new SessionRegistryImpl();
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // 配置登录注销路径
@@ -87,7 +83,9 @@ public class SecurityConfiguration{
                 .logout()
                 .logoutUrl("/logout")
                 .addLogoutHandler(logoutHandler)        // 登出处理
-                .logoutSuccessHandler(logoutSuccessHandler);    // 登出成功处理
+                .logoutSuccessHandler(logoutSuccessHandler)
+                .logoutSuccessUrl("/doc.html")
+                .deleteCookies("JSESSIONID");    // 登出成功处理
 
         // session管理
         http.sessionManagement()
@@ -95,7 +93,7 @@ public class SecurityConfiguration{
                 .maximumSessions(10) // 最大session数
                 .maxSessionsPreventsLogin(false)  // 某用户达到最大会话并发数后，新会话请求会被拒绝登录
                 .expiredSessionStrategy(sessionInformationExpiredStrategy) // 监听session消除后的处理
-                .sessionRegistry(sessionRegistry());
+                .sessionRegistry(sessionRegistry);
 
         // 关闭csrf跨站防护
              http.csrf().disable()
