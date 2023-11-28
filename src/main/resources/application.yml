@@ -42,6 +42,6 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 jwt:
-  header: JWTName
+  header: Authorization
   secret: springkhbd
   expiration: 360

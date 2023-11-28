@@ -1,9 +1,15 @@
 package com.puff.bkms.utils;
 
+import com.puff.bkms.common.ErrorCode;
+import com.puff.bkms.exception.BusinessException;
+import com.puff.bkms.model.dto.user.UserDetail;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.implementation.bytecode.Throw;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -17,6 +23,7 @@ import java.util.UUID;
  * @author: Puff
  * @date: 2023/11/20 上午3:14
  */
+@Slf4j
 public class JwtUtil {
 
     //有效期为
@@ -121,9 +128,73 @@ public class JwtUtil {
      * @return
      * @throws Exception
      */
-    public static String parseJwtGetSubject(String token) throws Exception {
-        Claims claims = parseJWT(token);
-        return claims.getSubject();
+    public static String parseJwtGetSubject(String token){
+        String username;
+        try {
+            Claims claims = parseJWT(token);
+            username = claims.getSubject();
+        } catch (Exception e){
+            username = null;
+        }
+        return username;
+    }
+
+    /**
+     * 验证 token 是否有效
+     * @param token JWT 的 token
+     * @param userDetail 从数据库中查询出来的用户信息（需要自定义 UserDetailsService 和 UserDetails）
+     * @return token 是否有效 true：有效 false：无效
+     */
+    public static boolean validateToken(String token, UserDetails userDetails){
+        // 从 token 中获取用户名
+        String username = null;
+        try {
+            username = parseJwtGetSubject(token);
+        } catch (Exception e) {
+            throw new BusinessException(ErrorCode.OPERATION_ERROR,"无效Token");
+        }
+        // 条件一：用户名不为 null
+        // 条件二：用户名和 UserDetail 中的用户名一致
+        // 条件三：token 未过期
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    /**
+     * 验证 token 是否过期
+     * @param token JWT 的 token
+     * @return token 是否过期 true：过期 false：未过期
+     */
+    private static boolean isTokenExpired(String token){
+        Date expiredDate = getExpiredDateFromToken(token);
+        return expiredDate.before(new Date());
+    }
+
+    /**
+     * 从 token 中获取过期时间
+     * @param token JWT 的 token
+     * @return 过期时间
+     */
+    private static Date getExpiredDateFromToken(String token){
+        return getClaimsFromToken(token).getExpiration();
+    }
+
+    /**
+     * 从 token 中获取 JWT 中的负载
+     * @param token JWT 的 token
+     * @return JWT 中的负载
+     */
+    private static Claims getClaimsFromToken(String token){
+        SecretKey secretKey = generalKey();
+        Claims claims = null;
+        try{
+            claims = Jwts.parser() // 解析 JWT 的 token
+                    .setSigningKey(secretKey) // 指定签名使用的密钥（会自动推断签名的算法）
+                    .parseClaimsJws(token) // 解析 JWT 的 token
+                    .getBody(); // 获取 JWT 的负载（即要传输的数据）
+        }catch (Exception e){
+            log.info("JWT 格式验证失败：{}",token);
+        }
+        return claims;
     }
 
 }

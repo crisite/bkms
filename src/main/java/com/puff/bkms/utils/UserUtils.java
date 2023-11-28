@@ -21,7 +21,6 @@ public class UserUtils {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR, "请先登录再操作");
         }
     }
-
     // 判断用户是否登录
     public static Boolean isLogin(){
         try {

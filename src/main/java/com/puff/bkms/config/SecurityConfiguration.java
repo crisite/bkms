@@ -1,5 +1,6 @@
 package com.puff.bkms.config;
 
+import com.puff.bkms.filter.JwtAuthenticationTokenFilter;
 import com.puff.bkms.handler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.session.InvalidSessionStrategy;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
@@ -55,6 +57,8 @@ public class SecurityConfiguration{
     private InvalidSessionStrategyImpl invalidSessionStrategy;
     @Autowired
     private SessionRegistry sessionRegistry;
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     /**
      * 创建一个BCryptPasswordEncoding注入容器,设置密码验证方法
@@ -85,6 +89,9 @@ public class SecurityConfiguration{
                 .logoutUrl("/logout")
                 .addLogoutHandler(logoutHandler)        // 登出处理
                 .logoutSuccessHandler(logoutSuccessHandler);
+
+        // 设置jwt拦截器
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         // session管理
         http.sessionManagement()

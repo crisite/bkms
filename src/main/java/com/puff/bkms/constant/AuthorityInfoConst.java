@@ -19,4 +19,9 @@ public interface AuthorityInfoConst {
      */
     String USER = "sys:user";
 
+    /**
+     * 测试权限
+     */
+    String TEST = "sys:test";
+
 }

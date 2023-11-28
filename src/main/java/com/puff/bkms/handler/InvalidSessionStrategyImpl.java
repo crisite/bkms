@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.puff.bkms.constant.CommonConst.APPLICATION_JSON;
 import static com.puff.bkms.constant.CommonConst.LOG_PRE;
 
 /**
- * 应该是Session失效后调用执行InvalidSessionStrategy
+ * 应该是Session 过期后调用执行InvalidSessionStrategy
  *
  * @author: Puff
  * @date: 2023/11/27 上午9:34
@@ -24,14 +25,8 @@ public class InvalidSessionStrategyImpl implements InvalidSessionStrategy {
     @Override
     public void onInvalidSessionDetected(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         log.info(LOG_PRE+"InvalidSessionStrategyImpl");
-        Cookie cookie = new Cookie("JSESSIONID", null);
-        cookie.setMaxAge(0);
-        String contextPath = request.getContextPath();
-        String c= contextPath.length() > 0 ? contextPath : "/";
-        cookie.setPath(c);
-        response.addCookie(cookie);
         // 当认证失败后，响应 JSON 数据给前端
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString("策略失效"));
+        response.setContentType(APPLICATION_JSON);
+        response.getWriter().write(objectMapper.writeValueAsString("Session 过期后 策略失效"));
     }
 }

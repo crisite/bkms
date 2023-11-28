@@ -46,10 +46,10 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         loginUser.setLastLogin(lastLogin);
 
         // 封装Token
-        Integer userId = UserUtils.getLoginUserId();
-        String token = JwtUtil.createJWT(Integer.toString(userId));
+        String username = UserUtils.getLoginUser().getUsername();
+        String token = JwtUtil.createJWT(username);
         // Token存入redis
-        redisClientUtils.set(RedisPrefixConst.BACKSTAGE_LOGIN_TOKEN+userId,token,10*60);
+        redisClientUtils.set(RedisPrefixConst.BACKSTAGE_LOGIN_TOKEN+username,token,10*60);
         response.setContentType(APPLICATION_JSON);
         // 将token返回给前端
         response.getWriter().write(JSON.toJSONString(ResultUtils.success(token)));

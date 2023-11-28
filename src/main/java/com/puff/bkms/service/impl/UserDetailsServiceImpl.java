@@ -9,13 +9,18 @@ import com.puff.bkms.model.entity.UserInfo;
 import com.puff.bkms.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.puff.bkms.constant.CommonConst.LOG_PRE;
 
 /**
  * 用户身份校验
@@ -50,14 +55,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // 获取权限信息
         List<String> powerList = userAuthMapper.selectPowerByUserId(userInfo.getId());
 
-        return UserDetail.builder()
+        // 权限列表赋给Spring Security使用的authList
+        ArrayList<GrantedAuthority> authList = new ArrayList<>();
+        powerList.forEach(power -> {
+            authList.add(new SimpleGrantedAuthority(power));
+        });
+
+        UserDetail userDetail = UserDetail.builder()
                 .id(userInfo.getId())
                 .username(userInfo.getUsername())
                 .password(userInfo.getPassword())
                 .roleList(roleList)
                 .powerList(powerList)
                 .lastLogin(userInfo.getLastLogin())
+                .authList(authList)
                 .build();
+        log.info(LOG_PRE+userDetail);
+        return userDetail;
     }
 
 }
