@@ -104,8 +104,8 @@ public class SecurityConfiguration{
         // 关闭csrf跨站防护
              http.csrf().disable()
                 .exceptionHandling()
+//                .authenticationEntryPoint(authenticationEntryPoint) // 用户未登录处理
                 .accessDeniedHandler(accessDeniedHandler); // 权限不足处理
-//                .authenticationEntryPoint(authenticationEntryPoint); // 用户未登录处理
 
         // 路由权限配置
         http.authorizeRequests()

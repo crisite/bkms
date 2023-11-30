@@ -17,6 +17,8 @@ import static com.puff.bkms.constant.CommonConst.LOG_PRE;
 
 /**
  * AuthenticationEntryPoint 用来解决匿名用户访问无权限资源时的异常
+ * spring Security 中的一个函数式接口，它定义了一个方法 commence。这个接口主要用于处理认证失败的情况，
+ * 例如当用户尝试访问一个受保护的资源但没有提供有效的凭证（一般密码，这里便是 Token）时
  * 使用自定义AuthenticationEntryPoint之后 spring security的默认login页面404了
  * so -> 现在AuthenticationEntryPointImpl先不使用了
  *
@@ -30,6 +32,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         log.info(LOG_PRE+"AuthenticationEntryPointImpl");
         response.setContentType(CommonConst.APPLICATION_JSON);
-        response.getWriter().write(JSON.toJSONString(ResultUtils.error(ErrorCode.NOT_LOGIN_ERROR)));
+        response.getWriter().write(JSON.toJSONString(ResultUtils.error(ErrorCode.NOT_LOGIN_ERROR, "AuthenticationEntryPointImpl 请先登录-.-")));
     }
 }

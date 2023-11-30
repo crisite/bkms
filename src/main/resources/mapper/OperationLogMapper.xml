@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.puff.bkms.mapper.OperationLogMapper">
+
+    <insert id="insertLog" parameterType="com.puff.bkms.model.dto.OperationLog.OperationLogDTO">
+        INSERT INTO operation_logs(user_id, operation_type, content, operation_time)
+        VALUE (#{userId}, #{operationType}, #{content}, #{operationTime})
+    </insert>
+    <select id="queryLogByUserId" resultType="com.puff.bkms.model.entity.OperationLog">
+        select * from operation_logs
+        <where>
+            <if test="id != null and id != ''">
+                user_id = #{userId}
+            </if>
+            <if test="sortField != null and sortField != '' ">
+                ORDER BY #{sortField} #{sortOrder}
+            </if>
+        </where>
+    </select>
+</mapper>

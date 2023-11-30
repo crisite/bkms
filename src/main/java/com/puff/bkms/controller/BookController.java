@@ -1,7 +1,7 @@
 package com.puff.bkms.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.puff.bkms.annotation.OptLog;
 import com.puff.bkms.common.BaseResponse;
 import com.puff.bkms.common.ErrorCode;
 import com.puff.bkms.common.ResultUtils;
@@ -10,8 +10,11 @@ import com.puff.bkms.model.dto.book.BookInsertRequest;
 import com.puff.bkms.model.dto.book.BookUpdateRequest;
 import com.puff.bkms.model.entity.Book;
 import com.puff.bkms.model.dto.book.BookQueryRequest;
+import com.puff.bkms.model.enums.OperationEnum;
 import com.puff.bkms.model.vo.BookVO;
 import com.puff.bkms.service.BookService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,7 @@ import java.util.List;
  * @author: Puff
  * @date: 2023/11/14 下午8:13
  */
+@Api(tags = "书籍模块")
 @RestController
 @RequestMapping("/api")
 public class BookController {
@@ -32,6 +36,7 @@ public class BookController {
     @Resource
     BookService bookService;
 
+    @ApiOperation(value = "添加书籍")
     @PostMapping("/books/insert")
     @PreAuthorize("hasAuthority('sys:admin')")
     public BaseResponse<String> insertBook(@RequestBody BookInsertRequest bookInsertRequest) {
@@ -39,6 +44,7 @@ public class BookController {
         return ResultUtils.success(null, "insert success");
     }
 
+    @ApiOperation(value = "删除书籍")
     @DeleteMapping("/books/delete/{id}")
     @PreAuthorize("hasAuthority('sys:admin')")
     public BaseResponse<String> deleteBook(@PathVariable("id")int id) {
@@ -46,6 +52,8 @@ public class BookController {
         return ResultUtils.success(null, "delete success");
     }
 
+    @OptLog(value = OperationEnum.UPDATE_TYPE)
+    @ApiOperation(value = "修改书籍信息")
     @PostMapping("/books/update")
     @PreAuthorize("hasAuthority('sys:admin')")
     public BaseResponse<String> updateBook(@RequestBody BookUpdateRequest bookUpdateRequest) {
@@ -53,6 +61,7 @@ public class BookController {
         return ResultUtils.success(null, "update success");
     }
 
+    @ApiOperation(value = "根据id查询书籍")
     @GetMapping("/books/get/{id}")
     public BaseResponse<Book> getBook(@PathVariable("id") int id) {
         Book book = bookService.getBook(id);
@@ -65,6 +74,7 @@ public class BookController {
      * @param bookQueryRequest:
      * @return BaseResponse<BookVO>
      */
+    @ApiOperation(value = "分页查询书籍列表")
     @PostMapping("/books")
     public BaseResponse<List<BookVO>> listBookVOByPage(@RequestBody BookQueryRequest bookQueryRequest) {
         long size = bookQueryRequest.getPageSize();

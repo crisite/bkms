@@ -36,6 +36,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     /**
      * 从请求中获取 JWT 令牌，
      * 并根据令牌获取用户信息，最后将用户信息封装到 Authentication 中，方便后续校验（只会执行一次）
+     * 逻辑上有点不理解，所有请求都会经过OncePerRequestFilter 但是在未登录的时候才走jwtFilter
+     * 可是登录之后登录状态被保持在SecurityContext
+     * 用户下次请求也不需要token啊？
      *
      * @param request:
      * @param response:
@@ -44,13 +47,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("puff_log --> JwtAuthenticationTokenFilter");
         String token = request.getHeader(tokenHeader);
-        log.info("checking token:{}", token);
+        log.info(LOG_PRE+"JwtAuthenticationTokenFilter");
         // 如果携带了token则直接走自定义拦截器的拦截方法
         if(token != null) {
             String username = JwtUtil.parseJwtGetSubject(token);
-            log.info("checking username:{}", username);
             // 如果用户名不为空，并且 SecurityContextHolder 中的 Authentication 为空（表示该用户未登录）
             log.info(LOG_PRE+"Authentication "+SecurityContextHolder.getContext().getAuthentication());
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){

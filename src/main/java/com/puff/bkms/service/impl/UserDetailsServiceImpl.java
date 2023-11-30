@@ -2,11 +2,9 @@ package com.puff.bkms.service.impl;
 
 import com.puff.bkms.common.ErrorCode;
 import com.puff.bkms.exception.ThrowUtils;
-import com.puff.bkms.mapper.UserAuthMapper;
-import com.puff.bkms.mapper.UserInfoMapper;
+import com.puff.bkms.mapper.UserMapper;
 import com.puff.bkms.model.dto.user.UserDetail;
-import com.puff.bkms.model.entity.UserInfo;
-import com.puff.bkms.service.UserAuthService;
+import com.puff.bkms.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.puff.bkms.constant.CommonConst.LOG_PRE;
@@ -32,9 +29,7 @@ import static com.puff.bkms.constant.CommonConst.LOG_PRE;
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    UserAuthMapper userAuthMapper;
-    @Autowired
-    UserInfoMapper userInfoMapper;
+    UserMapper userMapper;
 
 
     /**
@@ -47,13 +42,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserInfo userInfo = userInfoMapper.selectUserInfo(username);
-        ThrowUtils.throwIf(userInfo == null, ErrorCode.PARAMS_ERROR, "用户名或密码错误");
+        User user = userMapper.selectUser(username);
+        ThrowUtils.throwIf(user == null, ErrorCode.PARAMS_ERROR, "用户名或密码错误");
 
         // 获取用户角色
-        List<String> roleList = userInfoMapper.selectRoleByUserId(userInfo.getId());
+        List<String> roleList = userMapper.selectRoleByUserId(user.getId());
         // 获取权限信息
-        List<String> powerList = userAuthMapper.selectPowerByUserId(userInfo.getId());
+        List<String> powerList = userMapper.selectPowerByUserId(user.getId());
 
         // 权限列表赋给Spring Security使用的authList
         ArrayList<GrantedAuthority> authList = new ArrayList<>();
@@ -62,12 +57,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         });
 
         UserDetail userDetail = UserDetail.builder()
-                .id(userInfo.getId())
-                .username(userInfo.getUsername())
-                .password(userInfo.getPassword())
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
                 .roleList(roleList)
                 .powerList(powerList)
-                .lastLogin(userInfo.getLastLogin())
+                .lastLogin(user.getLastLogin())
                 .authList(authList)
                 .build();
         log.info(LOG_PRE+userDetail);

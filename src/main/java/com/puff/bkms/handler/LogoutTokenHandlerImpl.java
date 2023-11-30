@@ -1,6 +1,8 @@
 package com.puff.bkms.handler;
 
+import com.puff.bkms.annotation.OptLog;
 import com.puff.bkms.constant.RedisPrefixConst;
+import com.puff.bkms.model.enums.OperationEnum;
 import com.puff.bkms.utils.RedisClientUtils;
 import com.puff.bkms.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ public class LogoutTokenHandlerImpl implements LogoutHandler {
     RedisClientUtils redisClientUtils;
 
     @Override
+    @OptLog(OperationEnum.LOGOUT_TYPE)
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         log.info(LOG_PRE+"LogoutTokenHandlerImpl");
 

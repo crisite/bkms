@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
@@ -13,7 +14,9 @@ import java.util.Date;
  */
 
 @Data
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID=1L;
+
     private Integer id;
 
     private String username;

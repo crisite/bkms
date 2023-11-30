@@ -46,7 +46,6 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public void updateBook(BookUpdateRequest bookUpdateRequest) {
-        System.out.println(bookUpdateRequest.getTitle());
         bookMapper.updateBook(bookUpdateRequest);
     }
 

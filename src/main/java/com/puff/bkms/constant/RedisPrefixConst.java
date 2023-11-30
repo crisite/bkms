@@ -6,7 +6,7 @@ package com.puff.bkms.constant;
  * @author: Puff
  * @date: 2023/11/28 上午3:53
  */
-public class RedisPrefixConst {
+public interface RedisPrefixConst {
     /**
      * 后台登录token
      */
