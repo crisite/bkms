@@ -24,6 +24,7 @@ import static com.puff.bkms.constant.CommonConst.LOG_PRE;
  */
 @Component
 @Slf4j
+@OptLog(OperationEnum.LOGOUT_TYPE)
 public class LogoutTokenHandlerImpl implements LogoutHandler {
     @Autowired
     private SessionRegistry sessionRegistry;
@@ -31,7 +32,7 @@ public class LogoutTokenHandlerImpl implements LogoutHandler {
     RedisClientUtils redisClientUtils;
 
     @Override
-    @OptLog(OperationEnum.LOGOUT_TYPE)
+//    @OptLog(OperationEnum.LOGOUT_TYPE)
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         log.info(LOG_PRE+"LogoutTokenHandlerImpl");
 

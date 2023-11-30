@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * 操作日志注解
  */
 @Documented
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OptLog {
     OperationEnum value();

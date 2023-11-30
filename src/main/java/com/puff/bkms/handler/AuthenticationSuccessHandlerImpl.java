@@ -35,6 +35,7 @@ import static com.puff.bkms.constant.CommonConst.LOG_PRE;
 
 @Component
 @Slf4j
+@OptLog(OperationEnum.LOGIN_TYPE)
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
     @Autowired
     UserMapper userMapper;
